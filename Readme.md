@@ -4,7 +4,7 @@
 # To run the application
 
 <h2>There are 2 ways to run the application<h2>
-<p><b>Server is orchestrate with</b></p>
+<p><b>Server orchestrated with</b></p>
 <ul>
   <li>Docker Compose Orchestration</li>
   <li>Kubernetes Orchestration</li>
