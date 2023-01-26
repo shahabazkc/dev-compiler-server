@@ -1,0 +1,41 @@
+version: '3.9'
+
+services:
+  # MongoDb services
+  mongo_db:
+    container_name: db_container
+    image: mongo:latest
+    restart: always
+    ports:
+      - 2717:27017
+    volumes:
+      - mongo_db:/data/db
+    networks:
+      - app
+
+  # Backend services
+  auth_service:
+    build: /auth
+    container_name: dev_compiler_auth
+    ports:
+      - 3000:3000
+    volumes:
+      - .:/user/src/app/dev-compiler-backend/auth
+    environment: 
+      - APP_PORT=5000
+      - APP_NAME=AUTH_SERVER
+      - PINO_LOG_LEVEL=info
+      - ENABLE_CONSOLE_LOG=true
+      - MONGO_URI=mongodb://mongo_db:27017/AUTH_SERVER
+      - MONGO_DB_PORT=27017
+      - ENVIRONMENT=DEVELOPMENT
+    depends_on:
+      - mongo_db
+    networks:
+      - app
+
+volumes:
+  mongo_db: {}
+
+networks:
+  app: 
