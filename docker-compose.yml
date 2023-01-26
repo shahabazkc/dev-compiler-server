@@ -1,6 +1,19 @@
 version: '3.9'
 
 services:
+  nginx-proxy:
+    image: nginxproxy/nginx-proxy
+    ports:
+      - "80:80"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - /etc/nginx/conf.d
+      - /etc/nginx/vhost.d # to update vhost configuration
+      - /usr/share/nginx/html # to write challenge files
+      - "../../../volumes/proxy/certs:/etc/nginx/certs:ro"
+    networks:
+      - app
+
   # MongoDb services
   mongo_db:
     container_name: db_container
@@ -15,14 +28,21 @@ services:
 
   # Backend services
   auth_service:
+    image: jwilder/whoami
     build: /auth
     container_name: dev_compiler_auth
     ports:
-      - 3000:3000
+      - 3001:80
+    # expose:                 # <--- the important bit here
+    #   - "8000"              # <--- and here
     volumes:
       - .:/user/src/app/dev-compiler-backend/auth
     environment: 
-      - APP_PORT=5000
+      - VIRTUAL_HOST=api.dev-compiler.com
+      - VIRTUAL_PORT=3001
+      - VIRTUAL_PATH=/api/auth
+      - ENABLE_IPV6=true
+      - APP_PORT=3001
       - APP_NAME=AUTH_SERVER
       - PINO_LOG_LEVEL=info
       - ENABLE_CONSOLE_LOG=true
@@ -31,6 +51,7 @@ services:
       - ENVIRONMENT=DEVELOPMENT
     depends_on:
       - mongo_db
+      - nginx-proxy
     networks:
       - app
 
