@@ -26,7 +26,7 @@ process.on("SIGINT", () => {
     process.exit(0);
 });
 
-const startServer = async (app: any) => {
+const startServer = async () => {
     await DB.connect(
         {
             mongoUri: config.MONGO_URI,
@@ -46,4 +46,4 @@ const startServer = async (app: any) => {
 };
 
 
-startServer(app);
+startServer();
