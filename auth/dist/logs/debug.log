@@ -1,0 +1,4 @@
+{"level":30,"time":"26-Jan-2023 14:08:51 051","pid":26220,"hostname":"MSI","name":"AUTH_SERVER","msg":"connecting to database"}
+{"level":30,"time":"26-Jan-2023 14:08:51 051","pid":26220,"hostname":"MSI","name":"AUTH_SERVER","msg":"Connected to database - localhost/AUTH_SERVER successfully'"}
+{"level":30,"time":"26-Jan-2023 14:08:51 051","pid":26220,"hostname":"MSI","name":"AUTH_SERVER","msg":"AUTH_SERVER is started on port: 3001"}
+{"level":30,"time":"26-Jan-2023 14:09:21 021","pid":26220,"hostname":"MSI","name":"AUTH_SERVER","msg":"AUTH_SERVER: Connection to database closed due to nodejs process termination"}

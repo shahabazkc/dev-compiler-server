@@ -1,0 +1,20 @@
+apiVersion: skaffold/v3
+kind: Config
+deploy:
+  kubectl: {}
+build:
+  local:
+    push: false
+  artifacts:
+    - image: muhammedshahabaz/dev-compiler/auth
+      context: auth
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - dest: .
+            src: src/**/*.ts
+manifests:
+  rawYaml:
+    - ./infra/k8s/*
+    - ./infra/k8s-dev/*
