@@ -22,6 +22,7 @@ Step 2: "docker compose build"  Run this command from root folder.<br/><br/>
 </b>
 <b> 
 Step 3: "docker compose up" Run this command from root folder.<br/><br/>
+Now the Server will be running on your local.
 </b>
 
 
