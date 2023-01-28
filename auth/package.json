@@ -22,7 +22,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@dev-compiler/common": "^0.0.7",
+    "@dev-compiler/common": "^0.0.8",
     "bcryptjs": "^2.4.3",
     "celebrate": "^15.0.1",
     "cors": "^2.8.5",

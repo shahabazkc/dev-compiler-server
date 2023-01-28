@@ -1,5 +1,5 @@
+import { Bcrypt } from "@dev-compiler/common";
 import mongoose from "mongoose";
-import { Bcrypt } from "../../utils/bcrypt/Bcrypt";
 import * as constants from '../../utils/constants/index';
 
 const userSchema = new mongoose.Schema({

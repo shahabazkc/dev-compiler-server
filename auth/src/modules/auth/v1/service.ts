@@ -1,10 +1,8 @@
-import { DBService } from "../../../utils/dbService/dbService"
-
-const DB = new DBService();
-
 import * as constants from '../../../utils/constants/index';
 import UserModel from "../UserModel";
 import * as types from '../../../utils/types/types';
+import { DBService } from '@dev-compiler/common';
+const DB = new DBService();
 
 export default {
     checkUserExist: async (query: any) => {

@@ -1,11 +1,8 @@
 import express from "express";
 import cors from 'cors';
-import errorHandler from "./utils/error-handler/error-handler";
-import ApiError from "./utils/error-handler/ApiError";
 import httpStatus from "http-status";
 import authRouter from "./modules/auth/Router";
-import { errorConverter } from "./utils/error-handler/error-converter";
-import { log } from "./config/logger";
+import { ApiError, errorConverter, errorHandler, log, } from "@dev-compiler/common";
 
 const app = express();
 

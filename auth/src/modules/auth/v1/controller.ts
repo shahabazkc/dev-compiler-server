@@ -1,9 +1,7 @@
+import { ApiError, Bcrypt, JWT, log } from "@dev-compiler/common";
 import { Request, Response, NextFunction } from "express";
 import httpStatus from "http-status";
-import { log } from "../../../config/logger";
-import { Bcrypt } from "../../../utils/bcrypt/Bcrypt";
-import ApiError from "../../../utils/error-handler/ApiError";
-import { JWT } from "../../../utils/jwt/Jwt";
+
 import * as types from "../../../utils/types/types";
 import Service from './service';
 
@@ -80,7 +78,7 @@ export default {
     },
     verifyAuth: async (req: Request, res: Response, next: NextFunction) => {
         try {
-            
+
         } catch (err) {
             log.debug("Error while verify auth");
             log.error(err);
