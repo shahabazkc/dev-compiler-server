@@ -41,7 +41,7 @@ const targets = [
         options: Object.assign(Object.assign({}, defaultOpts), { destination: path_1.default.resolve(logFilePath, 'error.log') }),
     },
 ];
-console.log("console: ", process.env.ENABLE_CONSOLE_LOG);
+console.log("console: ", process.env.ENABLE_CONSOLE_LOG || process.env);
 if (process.env.ENABLE_CONSOLE_LOG === 'true') {
     targets.push({
         target: 'pino-pretty',

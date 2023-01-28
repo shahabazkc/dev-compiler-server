@@ -19,7 +19,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.log = void 0;
 const dotenv_1 = __importDefault(require("dotenv"));
-dotenv_1.default.config({ path: '../../.env' });
+dotenv_1.default.config();
 // Configs
 __exportStar(require("./config/db"), exports);
 var logger_1 = require("./config/logger");
