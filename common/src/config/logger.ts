@@ -1,7 +1,6 @@
 import logger from "pino";
 import path from 'path';
 import { format } from 'date-fns';
-import config from "./config";
 
 const levels = {
     http: 10,
@@ -12,7 +11,7 @@ const levels = {
     fatal: 60,
 };
 
-const logFilePath = path.resolve(__dirname, '../../logs');
+const logFilePath = path.resolve(__dirname, '../../../../../logs');
 const defaultOpts = {
     colorize: true,
     singleLine: true,
@@ -66,7 +65,7 @@ const transport = logger.transport({
 
 
 export const log = logger({
-    name: config.APP_NAME,
+    name: process.env.APP_NAME || "",
     customLevels: levels,
     level: process.env.PINO_LOG_LEVEL || 'info',
     timestamp: () => `,"time":"${format(Date.now(), 'dd-MMM-yyyy HH:mm:ss sss')}"`,

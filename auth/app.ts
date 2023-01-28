@@ -1,10 +1,11 @@
+
+import { Database, log } from '@dev-compiler/common';
 import dotenv from 'dotenv';
 dotenv.config();
 import app from "./src";
 import config from "./src/config/config";
-import { Database } from './src/config/db';
-import { log } from "./src/config/logger";
-const DB = new Database()
+const DB = new Database();
+
 
 const exitHandler = (error: any) => {
     log.info(error);
@@ -32,7 +33,7 @@ const startServer = async () => {
             mongoUri: config.MONGO_URI,
             host: config.HOST,
             name: config.APP_NAME,
-            port:  config.MONGO_DB_PORT,
+            port: config.MONGO_DB_PORT,
             opts: {
                 useNewUrlParser: true,
                 useUnifiedTopology: true

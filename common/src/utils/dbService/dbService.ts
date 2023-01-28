@@ -108,7 +108,7 @@ export class DBService {
      *
      * @returns object
      */
-    async getById(modelName: string, id: string, { noErr = false, populate = null }) {
+    async getById(modelName: string, id: string, { noErr = false, populate = [] }) {
         const model = this.getModelInstance(modelName);
 
         const result = await model.findById(id).populate(populate).lean();
@@ -138,7 +138,7 @@ export class DBService {
         {
             projections = null,
             sortOption = {},
-            populateQuery = null,
+            populateQuery = [],
             limit = 0,
             skip = 0,
         }
@@ -174,7 +174,7 @@ export class DBService {
         {
             noErr = false,
             projections = null,
-            populateQuery = null,
+            populateQuery = [],
             limit = 0,
             skip = 0,
             sort = {},
@@ -213,7 +213,7 @@ export class DBService {
             limit = 10,
             projections = null,
             sortOption = {},
-            populateQuery = null,
+            populateQuery = [],
         }
     ) {
         if (page <= 0 || limit <= 0) {

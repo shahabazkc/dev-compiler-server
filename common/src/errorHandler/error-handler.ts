@@ -1,10 +1,10 @@
-import { log } from "../../config/logger";
+import { log } from "../config/logger";
 import { Request, Response, NextFunction } from 'express';
 // eslint-disable-next-line no-unused-vars
-const errorHandler = (err: any, req: Request, res: Response, next: NextFunction) => {
+export const errorHandler = (err: any, req: Request, res: Response, next: NextFunction) => {
     const { statusCode, message } = err;
 
-    if (process.env.ENVIRONMENT !== "DEVELOPMENT") {
+    if (process.env.ENVIRONMENT !== "local") {
         log.error(err);
     }
 
@@ -15,5 +15,3 @@ const errorHandler = (err: any, req: Request, res: Response, next: NextFunction)
 
     res.status(statusCode).send(response);
 };
-
-export default errorHandler;
