@@ -15,7 +15,7 @@ const levels = {
     error: 50,
     fatal: 60,
 };
-const logFilePath = path_1.default.resolve(__dirname, '../../../logs');
+const logFilePath = path_1.default.resolve(__dirname, '../../../../logs');
 const defaultOpts = {
     colorize: true,
     singleLine: true,
@@ -41,7 +41,7 @@ const targets = [
         options: Object.assign(Object.assign({}, defaultOpts), { destination: path_1.default.resolve(logFilePath, 'error.log') }),
     },
 ];
-console.log(process.env);
+console.log("console: ", process.env.ENABLE_CONSOLE_LOG);
 if (process.env.ENABLE_CONSOLE_LOG === 'true') {
     targets.push({
         target: 'pino-pretty',

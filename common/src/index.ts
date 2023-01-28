@@ -1,3 +1,6 @@
+import dotenv from 'dotenv';
+dotenv.config({path: '../../.env'});
+
 // Configs
 export * from './config/db';
 export { log } from './config/logger';

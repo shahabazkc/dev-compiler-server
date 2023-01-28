@@ -13,8 +13,13 @@ var __createBinding = (this && this.__createBinding) || (Object.create ? (functi
 var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.log = void 0;
+const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config({ path: '../../.env' });
 // Configs
 __exportStar(require("./config/db"), exports);
 var logger_1 = require("./config/logger");
