@@ -30,11 +30,12 @@ services:
   auth_service:
     image: jwilder/whoami
     build: /auth
-    container_name: dev_compiler_auth
+    container_name: auth_service
     ports:
       - 3001:80
+      - 3001:l
     # expose:                 # <--- the important bit here
-    #   - "8000"              # <--- and here
+    #   - "3001"              # <--- and here
     volumes:
       - .:/user/src/app/dev-compiler-backend/auth
     environment: 

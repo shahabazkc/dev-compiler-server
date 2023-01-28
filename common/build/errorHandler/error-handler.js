@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.errorHandler = void 0;
 const logger_1 = require("../config/logger");
 // eslint-disable-next-line no-unused-vars
 const errorHandler = (err, req, res, next) => {
@@ -13,4 +14,4 @@ const errorHandler = (err, req, res, next) => {
     };
     res.status(statusCode).send(response);
 };
-exports.default = errorHandler;
+exports.errorHandler = errorHandler;

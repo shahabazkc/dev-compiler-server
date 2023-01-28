@@ -7,7 +7,7 @@ exports.errorConverter = void 0;
 const celebrate_1 = require("celebrate");
 const http_status_1 = __importDefault(require("http-status"));
 const mongoose_1 = __importDefault(require("mongoose"));
-const ApiError_1 = __importDefault(require("./ApiError"));
+const ApiError_1 = require("./ApiError");
 const http_errors_1 = __importDefault(require("http-errors"));
 const logger_1 = require("../config/logger");
 function handleCelebrateError(err) {
@@ -38,7 +38,7 @@ function handleCelebrateError(err) {
 }
 const errorConverter = (err, req, res, next) => {
     let error = err;
-    if (!(error instanceof ApiError_1.default)) {
+    if (!(error instanceof ApiError_1.ApiError)) {
         if ((0, celebrate_1.isCelebrateError)(error)) {
             error = handleCelebrateError(error);
         }
@@ -47,7 +47,7 @@ const errorConverter = (err, req, res, next) => {
                 ? http_status_1.default.BAD_REQUEST
                 : http_status_1.default.INTERNAL_SERVER_ERROR;
             const message = error.message || http_status_1.default[statusCode];
-            error = new ApiError_1.default(statusCode, message);
+            error = new ApiError_1.ApiError(statusCode, message);
         }
     }
     next(error);

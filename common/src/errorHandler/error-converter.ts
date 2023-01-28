@@ -2,7 +2,7 @@ import { isCelebrateError } from 'celebrate';
 import { Request, Response, NextFunction } from 'express';
 import httpStatus from 'http-status';
 import mongoose from 'mongoose';
-import ApiError from './ApiError';
+import { ApiError } from './ApiError';
 import httpErrors from 'http-errors';
 import { log } from '../config/logger';
 
