@@ -11,7 +11,7 @@ const levels = {
     fatal: 60,
 };
 
-const logFilePath = path.resolve('../../logs');
+const logFilePath = path.resolve(__dirname,'../../../logs');
 const defaultOpts = {
     colorize: true,
     singleLine: true,
@@ -48,6 +48,7 @@ const targets: any[] = [
     },
 ];
 
+console.log(process.env);
 if (process.env.ENABLE_CONSOLE_LOG === 'true') {
     targets.push({
         target: 'pino-pretty',
