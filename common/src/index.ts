@@ -1,6 +1,6 @@
 // Configs
 export * from './config/db';
-export * from './config/logger';
+export { log } from './config/logger';
 
 
 // Error handlers

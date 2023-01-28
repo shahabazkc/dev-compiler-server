@@ -1,5 +1,5 @@
 export * from './config/db';
-export * from './config/logger';
+export { log } from './config/logger';
 export * from './errorHandler/ApiError';
 export * from './errorHandler/error-converter';
 export * from './errorHandler/error-handler';

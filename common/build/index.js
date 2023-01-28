@@ -14,9 +14,11 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.log = void 0;
 // Configs
 __exportStar(require("./config/db"), exports);
-__exportStar(require("./config/logger"), exports);
+var logger_1 = require("./config/logger");
+Object.defineProperty(exports, "log", { enumerable: true, get: function () { return logger_1.log; } });
 // Error handlers
 __exportStar(require("./errorHandler/ApiError"), exports);
 __exportStar(require("./errorHandler/error-converter"), exports);

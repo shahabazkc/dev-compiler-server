@@ -15,7 +15,7 @@ const levels = {
     error: 50,
     fatal: 60,
 };
-const logFilePath = path_1.default.resolve(__dirname, '../../logs');
+const logFilePath = path_1.default.resolve('../../logs');
 const defaultOpts = {
     colorize: true,
     singleLine: true,
