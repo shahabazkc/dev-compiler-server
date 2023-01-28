@@ -11,7 +11,7 @@ const levels = {
     fatal: 60,
 };
 
-const logFilePath = path.resolve(__dirname,'../../../../logs');
+const logFilePath = path.resolve(__dirname, '../../../../logs');
 const defaultOpts = {
     colorize: true,
     singleLine: true,
@@ -48,7 +48,7 @@ const targets: any[] = [
     },
 ];
 
-console.log("console: ",process.env.ENABLE_CONSOLE_LOG);
+console.log("console: ", process.env.ENABLE_CONSOLE_LOG || process.env);
 if (process.env.ENABLE_CONSOLE_LOG === 'true') {
     targets.push({
         target: 'pino-pretty',
@@ -66,7 +66,7 @@ const transport = logger.transport({
 
 
 export const log = logger({
-    name: process.env.APP_NAME||"",
+    name: process.env.APP_NAME || "",
     customLevels: levels,
     level: process.env.PINO_LOG_LEVEL || 'info',
     timestamp: () => `,"time":"${format(Date.now(), 'dd-MMM-yyyy HH:mm:ss sss')}"`,
