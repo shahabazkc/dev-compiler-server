@@ -13,6 +13,7 @@ exports.authMiddleware = void 0;
 const ApiError_1 = require("../../errorHandler/ApiError");
 const Jwt_1 = require("../../utils/jwt/Jwt");
 ;
+// Auth middleware
 const authMiddleware = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         let cookie = req === null || req === void 0 ? void 0 : req.cookies['user-cookie'];

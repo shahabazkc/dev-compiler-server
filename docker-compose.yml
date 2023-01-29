@@ -30,15 +30,16 @@ services:
 
   # Backend services
   auth_service:
-    image: jwilder/whoami
-    build: /auth
-    container_name: auth_service
+    image: jwilder/whoami:auth
+    build: ./auth
+    container_name: auth_service_container
     ports:
       - 3001:3001
     # expose:                 # <--- the important bit here
     #   - "3001"              # <--- and here
     volumes:
-      - .:/user/src/app/dev-compiler-backend/auth
+      - auth_app:/app/auth
+      - auth_config:/config
     environment: 
       - VIRTUAL_HOST=api.dev-compiler.com
       - VIRTUAL_PORT=3001
@@ -50,15 +51,57 @@ services:
       - ENABLE_CONSOLE_LOG=true
       - MONGO_URI=mongodb://mongo_db:27017/AUTH_SERVER
       - MONGO_DB_PORT=27017
-      - ENVIRONMENT=DEVELOPMENT
+      - ENVIRONMENT=local
+      - NODE_ENV=DEVELOPMENT
+      - COOKIE_SECRET="khjgfdryuti(*&*^&%^$tfghvjjUTYRTSDHF457654"
+      - JWT_SECRET="LKJHGFDSFGUI(*&*^&%^$%&*(hjbnhgjhfg%^&*&^Y6875676"
+    depends_on:
+      - mongo_db
+      - nginx-proxy
+      - terminal_service
+    networks:
+      - app
+    labels:
+      - "com.compiler.service=auth"
+  terminal_service:
+    image: jwilder/whoami:terminal
+    build: ./terminal
+    container_name: terminal_service_container
+    ports:
+      - 3002:3002
+    # expose:                 # <--- the important bit here
+    #   - "3001"              # <--- and here
+    volumes:
+      - terminal_app:/app/terminal
+      - terminal_logs:/logs
+    environment: 
+      - VIRTUAL_HOST=api.dev-compiler.com
+      - VIRTUAL_PORT=3002
+      - VIRTUAL_PATH=/api/terminal
+      - ENABLE_IPV6=true
+      - APP_PORT=3002
+      - APP_NAME=TERMINAL_SERVER
+      - PINO_LOG_LEVEL=info
+      - ENABLE_CONSOLE_LOG=true
+      - MONGO_URI=mongodb://mongo_db:27017/TERMINAL_SERVER
+      - MONGO_DB_PORT=27017
+      - ENVIRONMENT=local
+      - NODE_ENV=DEVELOPMENT
+      - COOKIE_SECRET="khjgfdryuti(*&*^&%^$tfghvjjUTYRTSDHF457654"
+      - JWT_SECRET="LKJHGFDSFGUI(*&*^&%^$%&*(hjbnhgjhfg%^&*&^Y6875676"
     depends_on:
       - mongo_db
       - nginx-proxy
     networks:
       - app
-
+    labels:
+      - "com.compiler.service=terminal"
 volumes:
   mongo_db: {}
+  auth_app:
+  auth_config:
+  terminal_app:
+  terminal_logs:
 
 networks:
   app:
