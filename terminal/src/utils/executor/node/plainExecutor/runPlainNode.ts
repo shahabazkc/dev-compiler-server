@@ -2,7 +2,7 @@ import { exec } from "child_process";
 import path from 'path';
 import fs from 'fs'
 import { fileRemoveExecutor } from "../../../worker/removeExecutor";
-import { Script, createContext } from 'vm';
+import vm from 'vm';
 //import { NodeVM } from 'vm2'
 const filePath = path.resolve(__dirname);
 
@@ -32,20 +32,25 @@ export const VMExecution = async (code: string, reqId: string) => {
             const consoleStatements = [];
             const contextObj = {
                 console: {
-                    log: (...args: []) => {
-                        consoleStatements.push(...args)
+                    log: (args: []) => {
+                        consoleStatements.push(args)
                     }
                 },
-                setTimeout: setTimeout,
-                setInterval: setInterval,
-                setImmediate: setImmediate,
+                setTimeout,
+                setImmediate,
+                setInterval
             };
-            const vmContext = createContext(contextObj);
-            const script = new Script(`${code}`);
+            const vmContext =  vm.createContext(contextObj);
+            const script = new vm.Script(`${code}`);
             script.runInContext(vmContext);
+            // const context = { setTimeout,console } // just for info, otherwise setTimeout is there in new context without it too
+            // vm.runInNewContext(code, context); 
+            // console.log("hey here", consoleStatements);
+            // console.log("___________________________________________________")
             const singleStatement = consoleStatements.join('\n');
             resolve(singleStatement)
         } catch (error) {
+            console.log("error");
             resolve(error?.toString());
         }
     })
