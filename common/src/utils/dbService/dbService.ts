@@ -136,7 +136,7 @@ export class DBService {
         modelName: string,
         query: any,
         {
-            projections = null,
+            projections = null || {},
             sortOption = {},
             populateQuery = [],
             limit = 0,
@@ -173,7 +173,7 @@ export class DBService {
         query: any,
         {
             noErr = false,
-            projections = null,
+            projections = null || {},
             populateQuery = [],
             limit = 0,
             skip = 0,
@@ -211,7 +211,7 @@ export class DBService {
         {
             page = 1,
             limit = 10,
-            projections = null,
+            projections = null || {},
             sortOption = {},
             populateQuery = [],
         }

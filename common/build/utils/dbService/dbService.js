@@ -117,7 +117,7 @@ class DBService {
      *
      * @returns list of object
      */
-    getByQuery(modelName, query, { projections = null, sortOption = {}, populateQuery = [], limit = 0, skip = 0, }) {
+    getByQuery(modelName, query, { projections = null || {}, sortOption = {}, populateQuery = [], limit = 0, skip = 0, }) {
         return __awaiter(this, void 0, void 0, function* () {
             const model = this.getModelInstance(modelName);
             const result = yield model
@@ -142,7 +142,7 @@ class DBService {
      *
      * @returns one object
      */
-    getOneByQuery(modelName, query, { noErr = false, projections = null, populateQuery = [], limit = 0, skip = 0, sort = {}, }) {
+    getOneByQuery(modelName, query, { noErr = false, projections = null || {}, populateQuery = [], limit = 0, skip = 0, sort = {}, }) {
         return __awaiter(this, void 0, void 0, function* () {
             const model = this.getModelInstance(modelName);
             const result = yield model
@@ -167,7 +167,7 @@ class DBService {
      *
      * @returns paginated objects
      */
-    paginate(modelName, query, { page = 1, limit = 10, projections = null, sortOption = {}, populateQuery = [], }) {
+    paginate(modelName, query, { page = 1, limit = 10, projections = null || {}, sortOption = {}, populateQuery = [], }) {
         return __awaiter(this, void 0, void 0, function* () {
             if (page <= 0 || limit <= 0) {
                 throw (0, http_errors_1.default)(http_status_1.default.BAD_REQUEST, `page or limit cannot be 0 or negative`);

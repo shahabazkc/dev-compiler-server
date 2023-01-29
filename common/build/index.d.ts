@@ -6,3 +6,4 @@ export * from './errorHandler/error-handler';
 export * from './utils/dbService/dbService';
 export * from './utils/bcrypt/Bcrypt';
 export * from './utils/jwt/Jwt';
+export * from './middlewares/authMiddleware/authMiddleware';

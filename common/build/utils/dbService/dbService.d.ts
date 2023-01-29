@@ -38,7 +38,7 @@ export declare class DBService {
      * @returns list of object
      */
     getByQuery(modelName: string, query: any, { projections, sortOption, populateQuery, limit, skip, }: {
-        projections?: null | undefined;
+        projections?: {} | undefined;
         sortOption?: {} | undefined;
         populateQuery?: never[] | undefined;
         limit?: number | undefined;
@@ -53,7 +53,7 @@ export declare class DBService {
      */
     getOneByQuery(modelName: string, query: any, { noErr, projections, populateQuery, limit, skip, sort, }: {
         noErr?: boolean | undefined;
-        projections?: null | undefined;
+        projections?: {} | undefined;
         populateQuery?: never[] | undefined;
         limit?: number | undefined;
         skip?: number | undefined;
@@ -69,7 +69,7 @@ export declare class DBService {
     paginate(modelName: string, query: any, { page, limit, projections, sortOption, populateQuery, }: {
         page?: number | undefined;
         limit?: number | undefined;
-        projections?: null | undefined;
+        projections?: {} | undefined;
         sortOption?: {} | undefined;
         populateQuery?: never[] | undefined;
     }): Promise<{
