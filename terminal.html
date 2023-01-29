@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <h1>My Terminal</h1>
+        <button id="run-button" class="btn btn-success">Run</button>
+        <div class="container mt-3">
+            <label for="example-text-input">Code box</label>
+            <form>
+                <textarea id="code-text" placeholder="Enter the Code here" rows="15" cols="100"></textarea>
+            </form>
+            <label for="example-text-input">Terminal</label>
+            <form>
+                <textarea id="terminal" placeholder="Terminal Log" disabled rows="5" cols="120"></textarea>
+            </form>
+        </div>
+    </div>
+</body>
+<script>
+    $(document).ready(function () {
+        $("#run-button").click(function () {
+            $("#terminal").val("");
+            var code = $("#code-text").val();
+            axios.post('http://localhost:3002/api/terminal/js/v1/plain-code', { code: code })
+                .then(function (response) {
+                    $("#terminal").val(typeof response.data == "string" ? response.data : JSON.stringify(response.data));
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        });
+    });
+</script>
+
+</html>
