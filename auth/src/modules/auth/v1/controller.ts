@@ -18,7 +18,6 @@ export default {
             if (!userExist) {
                 return next(new ApiError(httpStatus.BAD_REQUEST, 'User does not exist'));
             };
-
             try {
                 await Bcrypt.compare(password, userExist?.password);
             }
@@ -26,22 +25,24 @@ export default {
                 return next(new ApiError(httpStatus.UNAUTHORIZED, 'Credentials are incorrect'));
             }
 
-            const token = JWT.generateJwtToken(
+            const token = await JWT.generateJwtToken(
                 {
                     userId: userExist?._id,
                     origin: req.headers?.origin || "dev",
                 }
             );
-            res.cookie('user_cookie', token, {
+            res.cookie('user-cookie', token, {
                 secure: process.env.ENVIRONMENT === "local" ? false : true,
                 maxAge: 2 * 24 * 60 * 60 * 1000 /* day * hour * 60 * 60 * 1000  */,
                 sameSite: "none",
                 path: "/",
             })
 
+            delete userExist.password;
             return res.json({
                 status: true,
-                message: "Login Success"
+                message: "Login Success",
+                data: userExist
             })
         }
         catch (err) {
@@ -78,7 +79,18 @@ export default {
     },
     verifyAuth: async (req: Request, res: Response, next: NextFunction) => {
         try {
-
+            const { userId } = req;
+            const user = await Service.checkUserExist({ _id: userId });
+            if (!user) {
+                res.clearCookie('user-cookie', {
+                    path: '/',
+                    secure: true,
+                    sameSite: 'none'
+                })
+                return next(new ApiError(httpStatus.BAD_REQUEST, 'User not found'));
+            }
+            delete user.password;
+            return res.send(user)
         } catch (err) {
             log.debug("Error while verify auth");
             log.error(err);
@@ -87,7 +99,15 @@ export default {
     },
     logout: async (req: Request, res: Response, next: NextFunction) => {
         try {
-
+            res.clearCookie('user-cookie', {
+                path: '/',
+                secure: true,
+                sameSite: 'none'
+            });
+            res.json({
+                status: true,
+                message: "Logged out succssfully",
+            });
         } catch (err) {
             log.debug("Error while logout");
             log.error(err);

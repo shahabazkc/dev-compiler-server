@@ -33,3 +33,5 @@ __exportStar(require("./utils/dbService/dbService"), exports);
 // Common Utilis
 __exportStar(require("./utils/bcrypt/Bcrypt"), exports);
 __exportStar(require("./utils/jwt/Jwt"), exports);
+// Auth middlewares
+__exportStar(require("./middlewares/authMiddleware/authMiddleware"), exports);
