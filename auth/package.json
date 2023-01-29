@@ -22,9 +22,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@dev-compiler/common": "^0.0.8",
+    "@dev-compiler/common": "^0.0.9",
     "bcryptjs": "^2.4.3",
     "celebrate": "^15.0.1",
+    "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "cuid": "^3.0.0",
     "date-fns": "^2.29.3",

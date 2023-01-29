@@ -16,6 +16,7 @@ declare global {
     }
 }
 
+// Auth middleware
 export const authMiddleware = async (req: Request, res: Response, next: NextFunction) => {
     try {
         let cookie = req?.cookies['user-cookie'];

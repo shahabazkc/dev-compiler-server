@@ -2,9 +2,11 @@ version: '3.9'
 
 services:
   nginx-proxy:
-    image: nginxproxy/nginx-proxy
+    image: jwilder/nginx-proxy
     ports:
       - "80:80"
+      - "443:443"
+    restart: "always"
     volumes:
       - /var/run/docker.sock:/tmp/docker.sock:ro
       - /etc/nginx/conf.d
@@ -32,8 +34,7 @@ services:
     build: /auth
     container_name: auth_service
     ports:
-      - 3001:80
-      - 3001:l
+      - 3001:3001
     # expose:                 # <--- the important bit here
     #   - "3001"              # <--- and here
     volumes:
@@ -60,4 +61,5 @@ volumes:
   mongo_db: {}
 
 networks:
-  app: 
+  app:
+    external: false

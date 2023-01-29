@@ -7,7 +7,8 @@ const DB = new DBService();
 export default {
     checkUserExist: async (query: any) => {
         return await DB.getOneByQuery(constants.COLLECTIONS.USER_COLLECTION, query, {
-            noErr: true
+            noErr: true,
+            projections: { __v: 0 }
         })
     },
     getAllUsers: async () => {
