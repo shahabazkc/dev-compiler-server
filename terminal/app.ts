@@ -28,19 +28,25 @@ process.on("SIGINT", () => {
 });
 
 const startServer = async () => {
-    await DB.connect(
-        {
-            mongoUri: config.MONGO_URI,
-            host: config.HOST,
-            name: config.APP_NAME,
-            port: config.MONGO_DB_PORT,
-            opts: {
-                useNewUrlParser: true,
-                useUnifiedTopology: true
-            },
-            replSet: ''
-        }
-    );
+    try {
+        await DB.connect(
+            {
+                mongoUri: config.MONGO_URI,
+                host: config.HOST,
+                name: config.APP_NAME,
+                port: config.MONGO_DB_PORT,
+                opts: {
+                    useNewUrlParser: true,
+                    useUnifiedTopology: true
+                },
+                replSet: ''
+            }
+        );
+    } catch (err) {
+        log.info("Error while connecting to database")
+        log.error(err);
+        process.exit(1);
+    }
     app.listen(config.PORT, () => {
         log.info(`${config.APP_NAME} is started on port: ${config.PORT}`)
     })
