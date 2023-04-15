@@ -12,7 +12,6 @@ const http_errors_1 = __importDefault(require("http-errors"));
 const logger_1 = require("../config/logger");
 function handleCelebrateError(err) {
     let errorBody;
-    const httpErr = (0, http_errors_1.default)(http_status_1.default.BAD_REQUEST, "Bad request parameters");
     // 'details' is a Map()
     if (err.details.has("body")) {
         errorBody = err.details.get("body");
@@ -34,6 +33,7 @@ function handleCelebrateError(err) {
         logger_1.log.error("default validation error");
         logger_1.log.debug("default validation error");
     }
+    const httpErr = (0, http_errors_1.default)(http_status_1.default.BAD_REQUEST, (errorBody === null || errorBody === void 0 ? void 0 : errorBody.message) || "Bad request parameters");
     return httpErr;
 }
 const errorConverter = (err, req, res, next) => {

@@ -22,7 +22,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@dev-compiler/common": "^0.0.10",
+    "@dev-compiler/common": "^0.0.11",
     "celebrate": "^15.0.1",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
