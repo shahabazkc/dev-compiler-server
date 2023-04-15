@@ -8,7 +8,7 @@ import { log } from '../config/logger';
 
 function handleCelebrateError(err: any) {
     let errorBody: any;
-    const httpErr = httpErrors(httpStatus.BAD_REQUEST, "Bad request parameters");
+
     // 'details' is a Map()
     if (err.details.has("body")) {
         errorBody = err.details.get("body");
@@ -29,6 +29,8 @@ function handleCelebrateError(err: any) {
         log.error("default validation error");
         log.debug("default validation error");
     }
+
+    const httpErr = httpErrors(httpStatus.BAD_REQUEST, errorBody?.message || "Bad request parameters");
 
     return httpErr;
 }
