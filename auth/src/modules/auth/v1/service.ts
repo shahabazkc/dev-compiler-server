@@ -20,7 +20,7 @@ export default {
             password: userData.password,
             mobile_number: userData.phone_number,
             email_id: userData.email,
-            country_code: userData.country_code,
+            ...(userData.country_code &&{country_code: userData.country_code}),
             name: userData.name
         }, opts);
         delete user.password;
