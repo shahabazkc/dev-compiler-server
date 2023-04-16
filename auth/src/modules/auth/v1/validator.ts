@@ -16,5 +16,10 @@ export default {
             mobile_number: Joi.number().min(6000000000).max(9999999999).required(),
             country_code: Joi.string().min(2).max(6).regex(/^\+?\d+$/).optional()
         })
+    }),
+    signInWithGithub: celebrate({
+        body: Joi.object({
+            code: Joi.string().required()
+        })
     })
 }
