@@ -17,13 +17,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.log = void 0;
+exports.oauth2Client = exports.log = void 0;
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 // Configs
 __exportStar(require("./config/db"), exports);
 var logger_1 = require("./config/logger");
 Object.defineProperty(exports, "log", { enumerable: true, get: function () { return logger_1.log; } });
+var googleAuth_1 = require("./config/googleAuth");
+Object.defineProperty(exports, "oauth2Client", { enumerable: true, get: function () { return googleAuth_1.oauth2Client; } });
 // Error handlers
 __exportStar(require("./errorHandler/ApiError"), exports);
 __exportStar(require("./errorHandler/error-converter"), exports);

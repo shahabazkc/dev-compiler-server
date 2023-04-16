@@ -1,4 +1,4 @@
-import { ApiError, Bcrypt, JWT, log } from "@dev-compiler/common";
+import { ApiError, Bcrypt, JWT, log,oauth2Client } from "@dev-compiler/common";
 import { Request, Response, NextFunction } from "express";
 import httpStatus from "http-status";
 
@@ -50,10 +50,10 @@ export default {
     },
     signup: async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const { username, email, phone_number }: types.SIGNUP_BODY = req.body;
+            const { username, email, mobile_number }: types.SIGNUP_BODY = req.body;
             const userExist = await Service.checkUserExist({
                 $or: [
-                    { username }, { email }, { phone_number }
+                    { username }, { email_id: email }, { mobile_number: mobile_number }
                 ]
             });
             if (userExist) {
@@ -114,7 +114,7 @@ export default {
                 return next(new ApiError(httpStatus.UNAUTHORIZED, 'Unauthorized'));
             }
             const githubData = await Github.getUserData(access_token);
-            const getUser = await Service.checkUserExist({ github_id: githubData.id });
+            let getUser = await Service.checkUserExist({ github_id: githubData.id });
             if (!getUser) {
                 const userNameExist = await Service.checkUserExist({ username: githubData.login });
                 let username = !userNameExist ? githubData.login : null;
@@ -123,11 +123,11 @@ export default {
                     github_id: githubData.id,
                     github_access_token: access_token,
                     github_data: githubData,
-                    phone_number: githubData.phone,
+                    mobile_number: githubData.phone,
                     email: githubData.email,
                     avatar: githubData.avatar_url,
                     name: githubData.name,
-                    password: githubData.id,
+                    // password: githubData.id,
                     country_code: githubData.country_code,
                 }, {});
 
@@ -150,6 +150,11 @@ export default {
                 })
             }
             else {
+                getUser = await Service.updateUser({ _id: getUser._id }, {
+                    github_access_token: access_token,
+                    github_data: githubData,
+                    ...(githubData.avatar_url?.length > 0 && { avatar: githubData?.avatar_url })
+                });
                 await createTokenAndSetCookie(
                     req, res,
                     constants.APP_CONFIG.AUTH_MODES.GITHUB as types.AuthTypes,
@@ -159,11 +164,11 @@ export default {
                         email: getUser.email,
                     }
                 );
-                delete getUser.password;
+                const userData = normalizeUserObject(getUser);
                 return res.json({
                     status: true,
                     message: "Login Success",
-                    data: getUser
+                    data: userData
                 })
             }
         }
@@ -176,8 +181,103 @@ export default {
     },
     signInWithGoogle: async (req: Request, res: Response, next: NextFunction) => {
         try {
+            const { code } = req.body;
+            const { tokens } = await oauth2Client.getToken(code);
+
+            // Decrypt google id_token
+            const ticket = await oauth2Client.verifyIdToken({
+                idToken: tokens.id_token,
+                audience: process.env.GOOGLE_CLIENT_ID
+            });
+            const payload = ticket.getPayload();
+            let getUser = await Service.checkUserExist({
+                $or: [
+                    { google_id: payload?.sub },
+                    { email_id: payload.email }
+                ]
+            });
+            if (!getUser) {
+                const user = await Service.createUser({
+                    username: null,
+                    google_id: payload.sub,
+                    google_access_token: tokens.access_token,
+                    google_data: payload,
+                    email: payload.email,
+                    avatar: payload.picture,
+                    name: payload.name
+                }, {});
+
+                await createTokenAndSetCookie(
+                    req, res,
+                    constants.APP_CONFIG.AUTH_MODES.GOOGLE as types.AuthTypes,
+                    {
+                        _id: user._id,
+                        username: user.username,
+                        email: user.email,
+                    }
+                );
+
+                let userData = normalizeUserObject(user);
+
+                return res.json({
+                    status: true,
+                    message: "Login Success",
+                    data: userData
+                })
+            } else {
+                getUser = await Service.updateUser({ _id: getUser._id }, {
+                    google_id: payload.sub,
+                    google_access_token: tokens.access_token,
+                    google_data: payload,
+                    ...(payload.picture?.length > 0 && { avatar: payload.picture })
+                });
+
+                await createTokenAndSetCookie(
+                    req, res,
+                    constants.APP_CONFIG.AUTH_MODES.GOOGLE as types.AuthTypes,
+                    {
+                        _id: getUser._id,
+                        username: getUser.username,
+                        email: getUser.email,
+                    }
+                );
+                const userData = normalizeUserObject(getUser);
+                return res.json({
+                    status: true,
+                    message: "Login Success",
+                    data: userData
+                })
+            }
         }
         catch (err) {
+            const error = err as AxiosError;
+            log.error("Error while signin with google");
+            log.error(error?.response?.data || error);
+            return next(new ApiError(httpStatus.INTERNAL_SERVER_ERROR, 'Internal Server Error'));
+        }
+    },
+    getGoogleSignInUrl: async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const scopes = [
+                'https://www.googleapis.com/auth/userinfo.profile',
+                'https://www.googleapis.com/auth/userinfo.email',
+                'https://www.googleapis.com/auth/user.phonenumbers.read'
+            ];
+            const url = oauth2Client.generateAuthUrl({
+                access_type: 'offline',
+                scope: scopes,
+            });
+
+            return res.json({
+                status: true,
+                data: url
+            })
+        }
+        catch (err) {
+            const error = err as AxiosError;
+            log.error("Error while accessing getGoogleSignInUrl()");
+            log.error(error?.response?.data || error);
+            return next(new ApiError(httpStatus.INTERNAL_SERVER_ERROR, 'Internal Server Error'));
         }
     }
 }
