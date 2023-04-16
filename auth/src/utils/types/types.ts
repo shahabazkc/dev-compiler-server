@@ -8,12 +8,15 @@ export interface SIGNUP_BODY {
     password?: string
     name: string
     email?: string
-    phone_number?: number,
+    mobile_number?: number,
     country_code?: string,
     github_id?: string,
     github_data?: any,
     github_access_token?: string,
-    avatar?: string
+    avatar?: string,
+    google_id?: string,
+    google_access_token?: string,
+    google_data?: any
 }
 
 export type AuthTypes = 'server' | 'github' | 'google';

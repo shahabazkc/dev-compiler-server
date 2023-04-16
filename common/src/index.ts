@@ -4,6 +4,8 @@ dotenv.config();
 // Configs
 export * from './config/db';
 export { log } from './config/logger';
+export {oauth2Client} from './config/googleAuth';
+
 
 // Error handlers
 export * from './errorHandler/ApiError';
@@ -19,3 +21,4 @@ export * from './utils/jwt/Jwt';
 
 // Auth middlewares
 export * from './middlewares/authMiddleware/authMiddleware';
+

@@ -1,6 +1,6 @@
 {
   "name": "@dev-compiler/common",
-  "version": "0.0.11",
+  "version": "0.0.12",
   "main": "./build/index.js",
   "types": "./build/index.d.ts",
   "files": [
@@ -23,6 +23,7 @@
     "date-fns": "^2.29.3",
     "dotenv": "^16.0.3",
     "express-validator": "^6.14.0",
+    "googleapis": "^118.0.0",
     "http-errors": "^2.0.0",
     "http-status": "^1.6.2",
     "jsonwebtoken": "^8.5.1",

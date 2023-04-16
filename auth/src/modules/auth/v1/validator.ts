@@ -21,5 +21,10 @@ export default {
         body: Joi.object({
             code: Joi.string().required()
         })
+    }),
+    signInWithGoogle: celebrate({
+        body: Joi.object({
+            code: Joi.string().required()
+        })
     })
 }

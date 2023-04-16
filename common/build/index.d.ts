@@ -1,5 +1,6 @@
 export * from './config/db';
 export { log } from './config/logger';
+export { oauth2Client } from './config/googleAuth';
 export * from './errorHandler/ApiError';
 export * from './errorHandler/error-converter';
 export * from './errorHandler/error-handler';
